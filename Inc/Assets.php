@@ -47,23 +47,20 @@ class Assets
         wp_enqueue_script('copy-to-clipboard');
 
         wp_add_inline_script(
-            'copy-to-clipboard',
-            'let copy2clipBtn = document.querySelector(".copy2clip-btn");
-            var clipboard = new ClipboardJS(".copy2clip-btn");
-            let clearCopyText;
+			'copy-to-clipboard',
+			'var copy2clipBtns = document.querySelectorAll(".copy2clip-btn");
+			var clipboard = new ClipboardJS(".copy2clip-btn");
+			clipboard.on("success", function (e) {
+				e.trigger.innerHTML = "Copied"; // Verwende e.trigger, um auf den spezifischen Button zuzugreifen
+				setTimeout(() => {
+					e.trigger.innerHTML = "Copy";
+				}, 5000);
+			});
 
-            clipboard.on("success", function (e) {
-                copy2clipBtn.innerHTML = "Copied";
-                clearInterval(clearCopyText);
-                clearCopyText = setTimeout(() => {
-                    copy2clipBtn.innerHTML = "Copy";
-                }, 5000);
-            });
-
-            clipboard.on("error", function (e) {
-                console.log(e);
-            });'
-        );
+			clipboard.on("error", function (e) {
+				console.log(e);
+			});'
+    );
     }
 
     /**
